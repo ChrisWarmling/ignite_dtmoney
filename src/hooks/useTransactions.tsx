@@ -18,15 +18,15 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: TransactionsItens[];
-  createTransaction: (transaction : TransactionsInput) => Promise<void>;
+  createTransaction: (transaction: TransactionsInput) => Promise<void>;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
   {} as TransactionsContextData
 )
 
-export function TransactionsProvider({children}: TransactionsProviderProps) {
-  
+export function TransactionsProvider({ children }: TransactionsProviderProps) {
+
   const [transactions, setTransactions] = useState<TransactionsItens[]>([])
 
   useEffect(() => {
@@ -34,23 +34,23 @@ export function TransactionsProvider({children}: TransactionsProviderProps) {
       .then(response => setTransactions(response.data.transactions))
   }, [])
 
-  async function createTransaction(transactionInput: TransactionsInput){
+  async function createTransaction(transactionInput: TransactionsInput) {
     const response = await api.post('/transactions', {
       ...transactionInput,
       createdAt: new Date(),
     })
-    const transaction = response.data
+    const { transaction } = response.data
     setTransactions([...transactions, transaction])
   }
 
   return (
-    <TransactionsContext.Provider value={{transactions, createTransaction}}>
+    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
       {children}
     </TransactionsContext.Provider>
   )
 }
 
-export function useTransactions(){
+export function useTransactions() {
   const context = useContext(TransactionsContext)
 
   return context

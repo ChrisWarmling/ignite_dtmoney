@@ -54,7 +54,7 @@ export function Summary() {
                   currency: 'BRL'
                 }).format(withdraws)}</strong>
       </div>
-      <div>
+      <div className="highlight-background">
         <header>
           <p>Total</p>
           <img src={totalImg} alt="Total" />
